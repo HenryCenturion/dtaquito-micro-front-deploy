@@ -1,0 +1,46 @@
+.chat-messages::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.chat-messages {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hidden-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-height {
+  height: 92%;
+}
+
+.sidebar {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 100% !important;
+    margin: 0;
+    padding: 20px;
+    border-radius: 45px;
+  }
+}
+
+@media (max-width: 450px) {
+  .send-text {
+    display: none;
+  }
+  .short-send-icon{
+    padding: 4px 1px;
+    margin-left: 0;
+  }
+}
+

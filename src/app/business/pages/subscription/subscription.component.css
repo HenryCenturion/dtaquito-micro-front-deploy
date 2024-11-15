@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+body {
+  background-color: #fff;
+}
+
+.subscription-title {
+  margin: 50px 0;
+  font-size: 4rem;
+  text-align: center;
+  font-family: 'Righteous', cursive;
+  color: #1B3022;
+  animation: pulse 1.5s infinite, color-change 0.8s infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.6); }
+  50% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes color-change {
+  0% { color: #A5D6A7; }
+  25% { color: #81C784; }
+  50% { color: #66BB6A; }
+  75% { color: #388E3C; }
+  100% { color: #1B3022; }
+}
+
+@keyframes hover-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px); /* Sube aún menos (2px) */
+  }
+  100% {
+    transform: translateY(0); /* Vuelve a su posición original */
+  }
+}
+
+.group:hover {
+  animation: hover-bounce 1s ease-in-out infinite; /* Duración más larga, 1 segundo */
+}
+

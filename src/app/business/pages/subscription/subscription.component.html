@@ -1,0 +1,150 @@
+<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
+<!-- Título con animación -->
+<h1 class="subscription-title">
+  {{ 'subscriptionPage.title' | translate }}
+</h1>
+
+<section class="pb-24 dark:bg-gray-900 dark:text-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!--Grid-->
+    <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-8 lg:space-y-0 lg:items-center">
+
+      <!--Pricing Card-->
+      <div class="flex flex-col mx-auto max-w-sm rounded-2xl p-6 xl:py-9 xl:px-12 transition-all duration-500 text-gray-900 dark:text-white bg-white dark:bg-gray-800 hover:bg-emerald-50 dark:hover:bg-indigo-500 group hover:animate-bounce border border-gray-300 dark:border-gray-700">
+
+      <h3 class="font-manrope text-2xl font-bold mb-3">{{ 'subscriptionPage.bronze' | translate }}</h3>
+        <div class="flex items-center mb-6">
+          <span class="font-manrope mr-2 text-6xl font-semibold">$4.99</span>
+          <span class="text-xl text-gray-500 dark:group-hover:text-gray-100">{{ 'subscriptionPage.priceForever' | translate }}</span>
+        </div>
+        <!--List-->
+        <ul class="mb-12 space-y-6 text-left text-lg ">
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.addSportSpace' | translate: { count: 1 } }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.personalization' | translate }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.visibility' | translate }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.customerService' | translate }}</span>
+          </li>
+        </ul>
+        <button *ngIf="currentSubscription < 2" (click)="updateSubscription('bronce')"  class="py-2.5 px-5 bg-green-500 shadow-sm rounded-full transition-all duration-500 text-base text-white font-semibold text-center w-fit block mx-auto hover:bg-green-600 dark:bg-indigo-500 dark:group-hover:bg-indigo-700">{{ 'subscriptionPage.purchasePlan' | translate }}</button>
+        <div *ngIf="currentSubscription === 2" class="italic text-[#1B3022] py-2.5 text-center dark:text-white">{{ 'subscriptionPage.currentPlan' | translate }}</div>
+        <!--List End-->
+      </div>
+
+
+      <!--Pricing Card-->
+      <div class="flex flex-col mx-auto max-w-sm rounded-2xl p-6 xl:py-9 xl:px-12 transition-all duration-500 text-gray-900 dark:text-white bg-white dark:bg-gray-800 hover:bg-emerald-50 dark:hover:bg-indigo-500 group hover:animate-bounce border border-gray-300 dark:border-gray-700">
+
+        <h3 class="font-manrope text-2xl font-bold mb-3">{{ 'subscriptionPage.silver' | translate }}</h3>
+        <div class="flex items-center mb-6">
+          <span class="font-manrope mr-2 text-6xl font-semibold">$9.99</span>
+          <span class="text-xl text-gray-500 dark:group-hover:text-gray-100">{{ 'subscriptionPage.priceForever' | translate }}</span>
+        </div>
+        <!--List-->
+        <ul class="mb-12 space-y-6 text-left text-lg ">
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.addSportSpace' | translate: { count: 2 } }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.personalization' | translate }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.visibility' | translate }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.customerService' | translate }}</span>
+          </li>
+        </ul>
+        <button *ngIf="currentSubscription < 3" (click)="updateSubscription('plata')"  class="py-2.5 px-5 bg-green-500 shadow-sm rounded-full transition-all duration-500 text-base text-white font-semibold text-center w-fit block mx-auto hover:bg-green-600 dark:bg-indigo-500 dark:group-hover:bg-indigo-700">{{ 'subscriptionPage.purchasePlan' | translate }}</button>
+        <div *ngIf="currentSubscription === 3" class="italic text-[#1B3022] py-2.5 text-center dark:text-white">{{ 'subscriptionPage.currentPlan' | translate }}</div>
+        <!--List End-->
+      </div>
+
+
+      <!--Pricing Card-->
+      <div class="flex flex-col mx-auto max-w-sm rounded-2xl p-6 xl:py-9 xl:px-12 transition-all duration-500 text-gray-900 dark:text-white bg-white dark:bg-gray-800 hover:bg-emerald-50 dark:hover:bg-indigo-500 group hover:animate-bounce border border-gray-300 dark:border-gray-700">
+
+        <h3 class="font-manrope text-2xl font-bold mb-3">{{ 'subscriptionPage.gold' | translate }}</h3>
+        <div class="flex items-center mb-6">
+          <span class="font-manrope mr-2 text-6xl font-semibold">$14.99</span>
+          <span class="text-xl text-gray-500 dark:group-hover:text-gray-100">{{ 'subscriptionPage.priceForever' | translate }}</span>
+        </div>
+        <!--List-->
+        <ul class="mb-12 space-y-6 text-left text-lg ">
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.addSportSpace' | translate: { count: 3 } }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.personalization' | translate }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.visibility' | translate }}</span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <!-- Icon -->
+            <svg class="flex-shrink-0 w-6 h-6 text-green-700 group-hover:text-green-500 dark:text-indigo-300 dark:group-hover:text-indigo-100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 14.7875L13.0959 17.8834C13.3399 18.1274 13.7353 18.1275 13.9794 17.8838L20.625 11.25M15 27.5C8.09644 27.5 2.5 21.9036 2.5 15C2.5 8.09644 8.09644 2.5 15 2.5C21.9036 2.5 27.5 8.09644 27.5 15C27.5 21.9036 21.9036 27.5 15 27.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ 'subscriptionPage.customerService' | translate }}</span>
+          </li>
+        </ul>
+        <button *ngIf="currentSubscription < 4" (click)="updateSubscription('oro')"  class="py-2.5 px-5 bg-green-500 shadow-sm rounded-full transition-all duration-500 text-base text-white font-semibold text-center w-fit block mx-auto hover:bg-green-600 dark:bg-indigo-500 dark:group-hover:bg-indigo-700">{{ 'subscriptionPage.purchasePlan' | translate }}</button>
+        <div *ngIf="currentSubscription === 4" class="italic text-[#1B3022] py-2.5 text-center dark:text-white">{{ 'subscriptionPage.currentPlan' | translate }}</div>
+        <!--List End-->
+      </div>
+    </div>
+    <!--Grid End-->
+  </div>
+</section>
+

@@ -1,0 +1,121 @@
+<div id="hs-scale-animation-modal" class="hs-overlay size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="hs-scale-animation-modal-label">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
+      <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
+        <h3 id="hs-scale-animation-modal-label" class="font-bold text-gray-800 dark:text-white">
+          {{ 'createSportSpaceDialog.addSportSpaceTitle' | translate }}
+        </h3>
+        <button (click)="onCancel()" type="button" class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600" aria-label="Close" data-hs-overlay="#hs-scale-animation-modal">
+          <span class="sr-only">Close</span>
+          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="container mx-auto p-6 bg-white shadow-lg rounded-xl dark:bg-neutral-800">
+        <form [formGroup]="sportSpaceForm" (ngSubmit)="onSubmit()">
+          <!-- Step 1: Name, Sport, and Gamemode -->
+          <div *ngIf="currentStep === 1" class="step-1">
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="name">
+                {{ 'createSportSpaceDialog.nameLabel' | translate }}
+              </label>
+              <input type="text" id="name" formControlName="name" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="sportAndGamemode">
+                {{ 'createSportSpaceDialog.sportAndGamemodeLabel' | translate }}
+              </label>
+              <select id="sportAndGamemode" formControlName="sportAndGamemode" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white">
+                <option *ngFor="let option of sportGamemodeOptions" [value]="option.value">{{ option.label }}</option>
+              </select>
+            </div>
+            <button type="button" (click)="nextStep()" [disabled]="!isStepValid()" [ngClass]="{ 'bg-gray-400': !isStepValid(), 'bg-blue-600 hover:bg-blue-700': isStepValid() }" class="py-2 px-4 text-white rounded-lg">
+              {{ 'createSportSpaceDialog.nextButton' | translate }}
+            </button>
+
+
+          </div>
+
+          <!-- Step 2: District, Location, and Price -->
+          <div *ngIf="currentStep === 2" class="step-2">
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="district">
+                {{ 'createSportSpaceDialog.districtLabel' | translate }}
+              </label>
+              <select id="district" formControlName="district" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white">
+                <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="description">
+                {{ 'createSportSpaceDialog.locationLabel' | translate }}
+              </label>
+              <input id="description" type="text" formControlName="description" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white">
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="price">
+                {{ 'createSportSpaceDialog.priceLabel' | translate }}
+              </label>
+              <input type="text" id="price" formControlName="price" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white" />
+            </div>
+            <div class="flex justify-between">
+              <button type="button" (click)="previousStep()" class="py-2 px-4 bg-gray-400 text-white rounded-lg hover:bg-gray-500">
+                {{ 'createSportSpaceDialog.backButton' | translate }}
+              </button>
+              <button type="button" (click)="nextStep()" [disabled]="!isStepValid()" [ngClass]="{ 'bg-gray-400': !isStepValid(), 'bg-blue-600 hover:bg-blue-700': isStepValid() }" class="py-2 px-4 text-white rounded-lg">
+                {{ 'createSportSpaceDialog.nextButton' | translate }}
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Step 3: Start Time and End Time -->
+          <div *ngIf="currentStep === 3" class="step-3">
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="startTime">
+                {{ 'createSportSpaceDialog.startTimeLabel' | translate }}
+              </label>
+              <input type="time" id="startTime" formControlName="startTime" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="endTime">
+                {{ 'createSportSpaceDialog.endTimeLabel' | translate }}
+              </label>
+              <input type="time" id="endTime" formControlName="endTime" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white" />
+            </div>
+            <div class="flex justify-between">
+              <button type="button" (click)="previousStep()" class="py-2 px-4 bg-gray-400 text-white rounded-lg hover:bg-gray-500">
+                {{ 'createSportSpaceDialog.backButton' | translate }}
+              </button>
+              <button type="button" (click)="nextStep()" [disabled]="!isStepValid()" [ngClass]="{ 'bg-gray-400': !isStepValid(), 'bg-blue-600 hover:bg-blue-700': isStepValid() }" class="py-2 px-4 text-white rounded-lg">
+                {{ 'createSportSpaceDialog.nextButton' | translate }}
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Step 4: Image URL -->
+          <div *ngIf="currentStep === 4" class="step-4">
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2" for="imageUrl">
+                {{ 'createSportSpaceDialog.imageUrlLabel' | translate }}
+              </label>
+              <input type="text" id="imageUrl" formControlName="imageUrl" (input)="updateImagePreview()" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white" />
+              <img *ngIf="imageUrl" [src]="imageUrl" alt="Image preview" class="w-full h-auto mt-4">
+            </div>
+            <div class="flex justify-between">
+              <button type="button" (click)="previousStep()" class="py-2 px-4 bg-gray-400 text-white rounded-lg hover:bg-gray-500">
+                {{ 'createSportSpaceDialog.backButton' | translate }}
+              </button>
+              <button type="submit" [disabled]="!sportSpaceForm.valid" [ngClass]="{ 'bg-gray-400': !sportSpaceForm.valid, 'bg-blue-600 hover:bg-blue-700': sportSpaceForm.valid }" class="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                {{ 'createSportSpaceDialog.submitButton' | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

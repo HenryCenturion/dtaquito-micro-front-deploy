@@ -1,0 +1,87 @@
+.mat-dialog-container.custom-dialog-container {
+  padding: 20px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  background-color: #fff !important;
+}
+
+h1.custom-dialog-title {
+  text-align: center !important;
+  color: #2e7d32 !important;
+  margin-bottom: 20px !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+mat-form-field.custom-form-field {
+  width: 100% !important;
+  margin-bottom: 20px !important;
+}
+
+input[matInput].custom-input,
+textarea[matInput].custom-textarea {
+  padding: 10px !important;
+  border-radius: 4px !important;
+  border: 1px solid #ccc !important;
+}
+
+button.custom-button {
+  display: block !important;
+  width: 100% !important;
+  padding: 10px !important;
+  background-color: #007bff !important;
+  color: white !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+button.custom-button:disabled {
+  background-color: #bdbdbd !important;
+  cursor: not-allowed !important;
+}
+
+button.custom-button:hover:enabled {
+  background-color: #0056b3 !important;
+}
+
+img.custom-image {
+  max-width: 100% !important;
+  height: auto !important;
+  margin-top: 10px !important;
+  border-radius: 4px !important;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .mat-dialog-container.custom-dialog-container {
+    padding: 15px !important;
+  }
+
+  h1.custom-dialog-title {
+    font-size: 20px !important;
+  }
+
+  button.custom-button {
+    padding: 8px !important;
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mat-dialog-container.custom-dialog-container {
+    padding: 10px !important;
+  }
+
+  h1.custom-dialog-title {
+    font-size: 18px !important;
+  }
+
+  button.custom-button {
+    padding: 6px !important;
+    font-size: 12px !important;
+  }
+}

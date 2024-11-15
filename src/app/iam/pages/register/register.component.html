@@ -1,0 +1,147 @@
+<div class="relative min-h-screen flex ">
+  <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
+    <div class="sm:w-1/2 xl:w-2/5 h-full hidden md:flex flex-auto items-center justify-start p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative" style="background-image: url(https://media.a24.com/p/4798b27c4b559a251803a5726e6270e8/adjuntos/296/imagenes/008/190/0008190127/1200x675/smart/medidas-una-cancha-futbol.jpeg);">
+      <div class="absolute bg-gradient-to-b from-blue-900 to-gray-900 opacity-75 inset-0 z-0"></div>
+      <div class="absolute min-h-screen right-0 w-16" [ngClass]="isDarkMode ? 'triangle-dark' : 'triangle'"></div>
+      <a href="" target="_blank" title="dtaquito" class="flex absolute top-5 text-center text-gray-100 focus:outline-none"><img src="assets/images/dtaquito_logo.png" alt="aji" class="object-cover mx-auto rounded-full w-10 h-10"><p class="text-xl ml-3"><strong>Dtaquito</strong></p> </a>
+      <img src="assets/images/pelotin.png" class="h-96 absolute right-5 mr-5 hide-on-small">
+      <div class="w-full  max-w-md z-10">
+        <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">{{ 'principalPage.nextGame' | translate }}</div>
+        <div class="sm:text-md xl:text-lg text-gray-200 font-normal">
+          {{ 'principalPage.discoverCommunity' | translate }}
+        </div>
+      </div>
+      <!---remove custom style-->
+      <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div class="flex items-center justify-center w-full sm:w-auto h-screen sm:h-auto md:h-full xl:w-2/5 p-8 md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white dark:bg-gray-800">
+      <div class="max-w-md w-full space-y-8 mx-auto">
+        <div class="text-center">
+          <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ 'principalPage.registerToDtaquito' | translate }}
+          </h2>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'principalPage.createAccount' | translate }}</p>
+        </div>
+        <div class="flex flex-row justify-center items-center space-x-3">
+          <a (click)="toggleDarkMode()" class="w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg   bg-gray-600 text-white dark:bg-amber-500 hover:shadow-lg cursor-pointer transition ease-in duration-300"><mat-icon class="relative z-10 hover:text-white">{{ isDarkMode ? 'wb_sunny' : 'brightness_2' }}</mat-icon>
+          </a>
+          <a (click)="changeLanguage()" target="_blank" class="w-11 h-11 bg-[#5BC0EB] items-center justify-center inline-flex rounded-2xl font-bold text-lg  text-white hover:shadow-lg cursor-pointer transition ease-in duration-300">
+            <span *ngIf="language === 'es'" class="flag-icon flag-icon-us h-6 w-6"></span>
+            <span *ngIf="language !== 'es'" class="flag-icon flag-icon-pe h-6 w-6"></span>
+          </a>
+        </div>
+        <div class="flex items-center justify-center space-x-2">
+          <span class="h-px w-56 bg-gray-200"></span>
+        </div>
+        <form class="w-full max-w-lg mx-auto mt-8 space-y-6" (ngSubmit)="onSubmit()">
+          <!-- Nombre -->
+          <div class="relative">
+            <label class="ml-3 text-sm font-bold text-gray-700 dark:text-gray-300 tracking-wide">{{ 'principalPage.name' | translate }}</label>
+            <input
+              [formControl]="nameFormControl"
+              type="text"
+              class="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+              placeholder="{{ 'principalPage.name' | translate }}"
+              required
+            >
+            <div class="text-red-600 text-sm ml-3" *ngIf="nameFormControl.touched">
+              <p *ngIf="nameFormControl?.hasError('required')">{{ 'principalPage.nameRequired' | translate }}</p>
+            </div>
+          </div>
+
+          <!-- Correo electrónico -->
+          <div class="relative">
+            <label class="ml-3 text-sm font-bold text-gray-700 dark:text-gray-300 tracking-wide">{{ 'principalPage.email' | translate }}</label>
+            <input
+              [formControl]="emailFormControl"
+              type="email"
+              class="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+              placeholder="{{ 'principalPage.email' | translate }}"
+              required
+            >
+            <div class="text-red-600 text-sm ml-3" *ngIf="emailFormControl.touched">
+              <p *ngIf="emailFormControl?.hasError('required')">{{ 'principalPage.emailRequired' | translate }}</p>
+              <p *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">{{ 'principalPage.validEmail' | translate }}</p>
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="relative">
+            <label class="ml-3 text-sm font-bold text-gray-700 dark:text-gray-300 tracking-wide">{{ 'principalPage.password' | translate }}</label>
+            <input
+              [formControl]="passwordFormControl"
+              type="password"
+              class="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+              placeholder="{{ 'principalPage.password' | translate }}"
+              required
+            >
+            <div class="text-red-600 text-sm ml-3" *ngIf="passwordFormControl.touched">
+              <p *ngIf="passwordFormControl?.hasError('required')">{{ 'principalPage.passwordRequired' | translate }}</p>
+            </div>
+          </div>
+
+          <!-- Rol -->
+          <div class="relative">
+            <label class="ml-3 text-sm font-bold text-gray-700 dark:text-gray-300 tracking-wide">{{ 'principalPage.role' | translate }}</label>
+            <select
+              [formControl]="roleFormControl"
+              class="w-full text-base px-4 py-2 border-b border-gray-300 bg-white focus:outline-none rounded-2xl focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+              required
+            >
+              <option value="" disabled selected>{{ 'principalPage.selectRole' | translate }}</option>
+              <option value="R">{{ 'principalPage.player' | translate }}</option>
+              <option value="P">{{ 'principalPage.owner' | translate }}</option>
+            </select>
+            <div class="text-red-600 text-sm ml-3" *ngIf="roleFormControl.touched">
+              <p *ngIf="roleFormControl?.hasError('required')">{{ 'principalPage.roleRequired' | translate }}</p>
+            </div>
+          </div>
+
+          <!-- Correo de cuenta bancaria -->
+          <div class="relative">
+            <label class="ml-3 text-sm font-bold text-gray-700 dark:text-gray-300 tracking-wide">{{ 'principalPage.paypalEmail' | translate }}</label>
+            <input
+              [formControl]="bankAccountFormControl"
+              type="text"
+              class="w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+              placeholder="{{ 'principalPage.paypalEmail' | translate }}"
+              required
+            >
+            <div class="text-red-600 text-sm ml-3" *ngIf="bankAccountFormControl.touched">
+              <p *ngIf="bankAccountFormControl?.hasError('required')">{{ 'principalPage.paypalEmailRequired' | translate }}</p>
+              <p *ngIf="bankAccountFormControl?.hasError('email') && !bankAccountFormControl?.hasError('required')">{{ 'principalPage.validPaypalEmail' | translate }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="errorMessage" class="text-red-600 text-sm text-center mt-4">{{ errorMessage }}</div>
+
+          <div class="mt-6">
+            <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-white p-4 rounded-full tracking-wide font-semibold shadow-lg transition ease-in duration-500">
+              {{ 'principalPage.register' | translate }}
+            </button>
+          </div>
+        </form>
+
+        <div class="flex items-center justify-center">
+          <div class="text-sm">
+            <a routerLink="/login" class="text-indigo-400 hover:text-blue-500">
+              {{ 'principalPage.backToLogin' | translate }}
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="bg-white dark:bg-gray-900 w-full flex flex-col items-center gap-5 px-3 md:px-16 lg:px-28">
+  <main class="w-full flex justify-center min-h-screen py-1">
+    <div class="p-2 md:p-4 w-3/4 lg:w-full sm:max-w-xl sm:rounded-lg bg-white dark:bg-gray-800 duration-300 ease-in-out transform h-3/4 mt-20">
+      <div *ngIf="user" class="w-full px-6 pb-8 mt-8 flex flex-col items-center">
+
+        <!-- Título Profile animado con color verde -->
+        <h2 class="text-3xl font-bold text-center mb-8 sm:text-4xl text-green-700 dark:text-green-400 tracking-wide animate-pulse">
+          {{ 'profilePage.title' | translate }}
+        </h2>
+
+        <div class="grid max-w-2xl mx-auto w-full">
+          <!-- Imagen y Role Type Centrados -->
+          <div class="flex flex-col items-center space-y-3 transition-all duration-300 transform hover:scale-105">
+            <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-green-300 dark:ring-green-500 bg-white"
+                 src="assets/images/user_icon.png"
+                 alt="Bordered avatar">
+
+            <!-- RoleType destacado con fondo y sombra verde -->
+            <p class="text-green-900 dark:text-white text-lg font-semibold bg-green-100 dark:bg-green-600 px-3 py-1 rounded-full shadow-md transform transition-transform duration-300 hover:scale-105">
+              {{ getRoleDescription(user.roleType) | translate }}
+            </p>
+          </div>
+
+          <!-- Botones de cambio de tema e idioma con estilo, animación, icono y texto -->
+          <div class="flex justify-center mt-6 w-full lg:w-3/4 mx-auto space-x-4">
+            <button type="button"
+                    (click)="toggleDarkMode()"
+                    class="relative flex h-10 w-auto items-center justify-center overflow-hidden bg-gray-600 dark:bg-amber-500 text-white dark:text-gray-200 shadow-2xl transition-all rounded-xl before:absolute before:h-0 before:w-0 before:rounded-full before:bg-gray-700 dark:before:bg-amber-600 hover:text-white dark:hover:text-gray-200 before:duration-500 before:ease-out hover:shadow-green-400 dark:hover:shadow-amber-400 hover:before:h-56 hover:before:w-56 hover:bg-white dark:hover:bg-amber-600 px-3 py-2"
+                    [ngClass]="{
+    'opacity-100 transform hover:scale-105': true
+  }">
+              <mat-icon class="relative z-10 hover:text-white">{{ isDarkMode ? 'wb_sunny' : 'brightness_2' }}</mat-icon>
+              <span class="ml-2 relative z-10 hidden sm:inline">{{ isDarkMode ? ('header.light_mode' | translate) : ('header.dark_mode' | translate) }}</span>
+            </button>
+            <button type="button"
+                    (click)="changeLanguage()"
+                    class="relative flex h-10 w-auto items-center justify-center overflow-hidden bg-[#5BC0EB] text-white dark:text-gray-200 shadow-xl transition-all rounded-xl before:absolute before:h-0 before:w-0 before:rounded-full before:bg-[#3387ab] dark:before:bg-[#3387ab] hover:text-white dark:hover:text-gray-200 before:duration-500 before:ease-out hover:shadow-lg dark:hover:shadow-xl hover:bg-[#3387ab] dark:hover:bg-[#3387ab] dark:hover:shadow-[#3387ab] px-3 py-2"
+                    [ngClass]="{
+    'opacity-100 transform hover:scale-105': true
+  }">
+              <span *ngIf="language === 'es'" class="flag-icon flag-icon-us h-6 w-6"></span>
+              <span *ngIf="language !== 'es'" class="flag-icon flag-icon-pe h-6 w-6"></span>
+              <span class="ml-2 relative z-10 hidden sm:inline">{{ language === 'es' ? 'English' : 'Español' }}</span>
+            </button>
+          </div>
+
+          <div class="items-center mt-8 text-[#202142] dark:text-gray-200 w-full">
+            <form (ngSubmit)="onSubmit()" #profileForm="ngForm" class="w-full">
+
+              <div class="flex flex-col mb-6 w-full sm:w-3/4 md:w-2/3 lg:w-3/4 xl:w-2/3 mx-auto">
+                <label for="name" class="block mb-1 sm:mb-2 font-medium text-green-900 dark:text-green-300 text-left text-sm sm:text-base lg:text-lg">
+                  {{ 'profilePage.name' | translate }}
+                </label>
+                <input type="text" id="name" [(ngModel)]="user.name" name="name" placeholder="{{ 'profilePage.name' | translate }}"
+                       class="bg-green-50 dark:bg-gray-700 border border-green-300 dark:border-green-500 text-green-900 dark:text-gray-200 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2 sm:p-2.5 lg:p-3 text-sm sm:text-base lg:text-lg transition-all duration-300 ease-in-out transform focus:scale-105" required>
+              </div>
+
+              <div class="flex flex-col mb-6 w-full sm:w-3/4 md:w-2/3 lg:w-3/4 xl:w-2/3 mx-auto">
+                <label for="email" class="block mb-1 sm:mb-2 font-medium text-green-900 dark:text-green-300 text-left text-sm sm:text-base lg:text-lg">
+                  {{ 'profilePage.email' | translate }}
+                </label>
+                <input type="email" id="email" [(ngModel)]="user.email" name="email" placeholder="{{ 'profilePage.email' | translate }}"
+                       class="bg-green-50 dark:bg-gray-700 border border-green-300 dark:border-green-500 text-green-900 dark:text-gray-200 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2 sm:p-2.5 lg:p-3 text-sm sm:text-base lg:text-lg transition-all duration-300 ease-in-out transform focus:scale-105" required>
+                <div *ngIf="!isEmailValid() && profileForm.controls['email']" class="text-red-600 dark:text-red-400 mt-1 text-xs sm:text-sm">
+                  {{ 'profilePage.validEmailMessage' | translate }}
+                </div>
+              </div>
+
+              <!-- Botón de guardar en verde con estilo deshabilitado y animación -->
+              <div class="flex justify-center mt-6 w-full lg:w-3/4 mx-auto">
+                <button type="submit"
+                        [disabled]="!isFormChanged() || !isEmailValid()"
+                        class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800 transition-opacity duration-300 ease-in-out"
+                        [ngClass]="{
+                          'opacity-50 cursor-not-allowed': !isFormChanged() || !isEmailValid(),
+                          'opacity-100 transform hover:scale-105': isFormChanged() && isEmailValid()
+                        }">
+                  {{ 'profilePage.save' | translate }}
+                </button>
+              </div>
+
+              <!-- Botón de cerrar sesión-->
+              <div class="flex justify-center mt-6 w-full lg:w-3/4 mx-auto">
+                <button type="button"
+                        (click)="logout()"
+                        class="flex items-center justify-center text-white bg-[#D64550] hover:bg-red-500 focus:ring-2 focus:outline-none focus:ring-[#D64550] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-600 transition-opacity duration-300 ease-in-out">
+                  <span>{{ 'header.logout' | translate }}</span>
+                  <mat-icon class="ml-2 relative z-10 hover:text-white">logout</mat-icon>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

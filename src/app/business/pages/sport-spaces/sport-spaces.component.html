@@ -1,0 +1,139 @@
+<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
+<div class="title-container">
+  <img src="assets/images/campo_futbol.gif" alt="Campo de fútbol" class="title-gif-futbol" [ngClass]="{'hide-gif': currentLanguage === 'es'}">
+  <h1 class="title">{{ 'sportSpacesPage.title' | translate }}</h1>
+  <img src="assets/images/mesa-billar2.gif" alt="Mesa de billar" class="title-gif-billar" [ngClass]="{'hide-gif': currentLanguage === 'es'}">
+</div>
+
+<div *ngIf="!dataOwner" class="filters-container" >
+  <button class="filter-menu-toggle" (click)="toggleFilterMenu()">
+    {{ 'sportSpacesPage.filters' | translate }}
+    <i [ngClass]="{'fa-chevron-down': !isFilterMenuOpen, 'fa-chevron-up': isFilterMenuOpen}" class="fas"></i>
+  </button>
+  <div  class="filters-content" [ngClass]="{'open': isFilterMenuOpen}">
+    <mat-form-field>
+      <mat-label>{{ 'sportSpacesPage.sport' | translate }}</mat-label>
+      <mat-select [(ngModel)]="filter.sportId" (selectionChange)="applyFilters()">
+        <mat-option *ngFor="let sport of sports" [value]="sport.id">{{ sport.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ 'sportSpacesPage.gamemode' | translate }}</mat-label>
+      <mat-select [(ngModel)]="filter.gamemode" (selectionChange)="applyFilters()">
+        <mat-option *ngFor="let gamemode of gamemodes" [value]="gamemode">
+          {{ transformGamemode(gamemode) }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ 'sportSpacesPage.district' | translate }}</mat-label>
+      <mat-select [(ngModel)]="filter.district" (selectionChange)="applyFilters()">
+        <mat-option *ngFor="let district of districts" [value]="district">
+          {{ district.replace('_', ' ') | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ 'sportSpacesPage.minPrice' | translate }}</mat-label>
+      <input matInput type="number" [(ngModel)]="filter.minPrice" (input)="applyFilters()">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ 'sportSpacesPage.maxPrice' | translate }}</mat-label>
+      <input matInput type="number" [(ngModel)]="filter.maxPrice" (input)="applyFilters()">
+    </mat-form-field>
+
+    <button class="clear-filters" (click)="clearFilters()">
+      <i class="fa-solid fa-filter-circle-xmark"></i>
+    </button>
+  </div>
+</div>
+
+<button
+  *ngIf="dataOwner && canAddMoreSportSpaces"
+  class="custom-button type--B" (click)="addSportSpace()"
+  [ngClass]="{
+    'dark-theme-button-type--B': isDarkMode,
+    'dark-theme-button-custom-button': isDarkMode,
+  }"
+  (mouseover)="celebrate()">
+  <div class="custom-button__line"></div>
+  <div class="custom-button__line"></div>
+  <span class="custom-button__text">{{ 'sportSpacesPage.addSportSpace' | translate }}</span>
+  <div class="custom-button__drow1"></div>
+  <div class="custom-button__drow2"></div>
+</button>
+
+<p *ngIf="dataOwner && userSubscriptionData.planType === 'free'" class="subscription-message">
+  {{ 'sportSpacesPage.subscriptionMessage' | translate }}
+</p>
+
+<div class="max-w-screen-l mx-auto p-5 sm:p-10 md:p-16">
+  <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-10 sm:gap-5">
+    <div class="card transform transition-transform duration-800 hover:scale-105 rounded-t-xl" *ngFor="let sportSpace of filteredSportSpaces">
+      <div class="rounded overflow-hidden shadow-lg flex flex-col h-full bg-white dark:bg-gray-800">
+        <!-- Botón de editar en la esquina superior izquierda -->
+        <button *ngIf="dataOwner" class="edit-button dark:bg-gray-600 dark:text-white" (click)="editSportSpace(sportSpace)">
+          <i class="fas fa-edit"></i> {{ 'sportSpacesPage.edit' | translate }}
+        </button>
+        <!-- Imagen de la tarjeta -->
+        <div class="relative h-80">
+          <img class="w-full h-full object-cover rounded-t-lg"
+               [src]="sportSpace.imageUrl"
+               alt="Sportspace image">
+          <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25 hover:opacity-50">
+          </div>
+          <div
+            class="text-lg absolute top-0 right-0 bg-amber-500 px-4 py-2 text-white mt-3 mr-3 rounded-full shadow-md hover:text-white transition duration-500 ease-in-out">
+            {{ 'sportSpacesPage.price' | translate }}: <strong>${{ sportSpace.price }}</strong>
+          </div>
+        </div>
+
+        <!-- Contenido de la tarjeta -->
+        <div class="px-6 py-4 flex-1 text-gray-900 dark:text-gray-200">
+          <!-- Nombre de la cancha destacado -->
+          <h5 class="text-2xl font-extrabold text-black dark:text-white capitalize text-center">
+            <strong>{{ sportSpace.name }}</strong>
+          </h5>
+          <!-- Distrito con icono -->
+          <p class="text-gray-800 dark:text-gray-300 text-base mb-2 flex items-center">
+            <i class="fas fa-map mr-2 text-red-500 dark:text-red-400"></i>
+            <strong>{{ 'sportSpacesPage.districtLabel' | translate }}&nbsp;</strong> {{ sportSpace.district.replace('_', ' ') | titlecase }}
+          </p>
+          <!-- Ubicacion con icono -->
+          <p class="text-gray-800 dark:text-gray-300 text-base mb-2 flex items-center">
+            <i class="fas fa-map-marker-alt mr-2 text-blue-500 dark:text-blue-400"></i>
+            <strong>{{ 'sportSpacesPage.locationLabel' | translate }}&nbsp;</strong> {{ sportSpace.description }}
+          </p>
+          <!-- Deporte con icono -->
+          <p class="text-gray-800 dark:text-gray-300 text-base mb-2 flex items-center">
+            <i class="fas fa-soccer-ball mr-2 text-purple-500 dark:text-purple-400"></i>
+            <strong>{{ 'sportSpacesPage.sportLabel' | translate }}&nbsp;</strong> {{ getSportName(sportSpace.sportId) }}
+          </p>
+          <!-- Avance por persona con icono -->
+          <p class="text-gray-800 dark:text-gray-300 text-base flex items-center">
+            <i class="fas fa-wallet mr-2 text-amber-700 dark:text-amber-500"></i>
+            <strong>{{ 'sportSpacesPage.advancePerPerson' | translate }}&nbsp;</strong> $ {{ sportSpace.amount }}
+          </p>
+        </div>
+
+        <!-- Footer con íconos y horario -->
+        <div class="px-6 py-3 flex items-center justify-between bg-gray-200 dark:bg-gray-700">
+          <span class="text-s font-medium text-gray-900 dark:text-gray-100 flex items-center">
+            <i class="fas fa-id-badge mr-2 text-emerald-500 dark:text-emerald-400"></i> {{ 'sportSpacesPage.idLabel' | translate }} {{ sportSpace.id }}
+          </span>
+          <span class="text-s font-medium text-gray-900 dark:text-gray-100 flex items-center">
+            <i class="fas fa-clock mr-2 text-gray-800 dark:text-gray-300"></i> {{ 'sportSpacesPage.timeLabel' | translate: { startTime: sportSpace.StartTime, endTime: sportSpace.endTime } }}
+          </span>
+          <span class="text-s font-medium text-gray-900 dark:text-gray-100 flex items-center">
+            <i class="fas fa-gamepad mr-2 text-cyan-500 dark:text-cyan-400"></i> {{ 'sportSpacesPage.gamemodeLabel' | translate: { gamemode: transformGamemode(sportSpace.gamemode) } }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

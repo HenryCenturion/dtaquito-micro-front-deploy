@@ -1,0 +1,94 @@
+<div class="relative flex min-h-[calc(100vh-4.5rem)] z-0"
+     [ngClass]="{
+       'min-h-[calc(100vh-4.5rem)]': isAuthenticated() && (dataOwner || dataPlayer),
+       'min-h-[calc(100vh)]': !isAuthenticated() || (!dataOwner && !dataPlayer)
+     }">
+  <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white dark:bg-gray-900">
+    <div class="sm:w-1/2 xl:w-2/5 h-full hidden md:flex flex-auto items-center justify-start p-10 overflow-hidden bg-purple-900 text-white dark:bg-gray-800 bg-no-repeat bg-cover relative" style="background-image: url(https://media.a24.com/p/4798b27c4b559a251803a5726e6270e8/adjuntos/296/imagenes/008/190/0008190127/1200x675/smart/medidas-una-cancha-futbol.jpeg);">
+      <div class="absolute bg-gradient-to-b from-blue-900 to-gray-900 opacity-75 inset-0 z-0"></div>
+      <div class="absolute min-h-screen right-0 w-16" [ngClass]="isDarkMode ? 'triangle-dark' : 'triangle'"></div>
+      <a *ngIf="!isAuthenticated() && (!dataOwner || !dataPlayer)" href="" target="_blank" title="dtaquito" class="flex absolute top-5 text-center text-gray-100 focus:outline-none"><img src="assets/images/dtaquito_logo.png" alt="aji" class="object-cover mx-auto  rounded-full w-10 h-10"><p class="text-xl ml-3"><strong>Dtaquito</strong></p> </a>
+      <img src="assets/images/pelotin.png" class="h-96 absolute right-5 mr-5 hide-on-small">
+      <div class="w-full  max-w-md z-10">
+        <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6 text-gray-100 dark:text-gray-200">
+          {{ 'principalPage.nextGame' | translate }}
+        </div>
+        <div class="sm:text-md xl:text-lg text-gray-200 font-normal">
+          {{ 'principalPage.discoverCommunity' | translate }}
+        </div>
+      </div>
+      <!---remove custom style-->
+      <ul class="circles ">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+
+<!--    <div class="flex items-center justify-center w-full h-full p-8 md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white dark:bg-gray-800">-->
+<!--      <div class="max-w-md w-full space-y-8 mx-auto">-->
+
+    <div class="flex items-center justify-center w-full sm:w-auto h-screen sm:h-auto md:h-full xl:w-2/5 p-8 md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white dark:bg-gray-800">
+      <div class="max-w-md w-full space-y-8 mx-auto">
+        <div *ngIf="!isAuthenticated() && (!dataOwner || !dataPlayer)" class="text-center">
+          <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ 'principalPage.welcome' | translate }}
+          </h2>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'principalPage.signInToAccount' | translate }}</p>
+        </div>
+        <div *ngIf="isAuthenticated() && dataPlayer" class="text-center">
+          <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ 'principalPage.welcomePlayer' | translate }}
+          </h2>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'principalPage.playerMessage' | translate }}</p>
+        </div>
+        <div *ngIf="isAuthenticated() && dataOwner" class="text-center">
+          <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ 'principalPage.welcomeOwner' | translate }}
+          </h2>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'principalPage.ownerMessage' | translate }}</p>
+        </div>
+        <div *ngIf="!isAuthenticated() && (!dataOwner || !dataPlayer)" class="flex flex-row justify-center items-center space-x-3">
+          <a (click)="toggleDarkMode()" class="w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg bg-gray-600 text-white dark:bg-amber-500 hover:shadow-lg cursor-pointer transition ease-in duration-300"><mat-icon class="relative z-10 hover:text-white">{{ isDarkMode ? 'wb_sunny' : 'brightness_2' }}</mat-icon></a>
+          <a (click)="changeLanguage()" target="_blank" class="w-11 h-11 bg-[#5BC0EB] items-center justify-center inline-flex rounded-2xl font-bold text-lg text-white hover:shadow-lg cursor-pointer transition ease-in duration-300">
+            <span *ngIf="language === 'es'" class="flag-icon flag-icon-us h-6 w-6"></span>
+            <span *ngIf="language !== 'es'" class="flag-icon flag-icon-pe h-6 w-6"></span>
+          </a>
+        </div>
+        <div class="flex items-center justify-center space-x-2">
+          <span class="h-px w-56 bg-gray-200 dark:bg-gray-700"></span>
+        </div>
+        <form class="mt-8 space-y-6" method="POST">
+          <input type="hidden" name="remember" value="true">
+          <div>
+            <button *ngIf="!isAuthenticated() && (!dataOwner || !dataPlayer)" type="button" routerLink="/login" class="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 dark:bg-indigo-700 dark:hover:bg-indigo-600">
+              {{ 'principalPage.signIn' | translate }}
+            </button>
+            <button *ngIf="isAuthenticated() && dataPlayer" type="button" routerLink="/rooms" class="w-full flex justify-center bg-gradient-to-r from-purple-400 to-pink-500 hover:bg-gradient-to-l hover:from-pink-500 hover:to-purple-400 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 dark:bg-purple-600 dark:hover:bg-pink-500">
+              {{ 'principalPage.searchRooms' | translate }}
+            </button>
+
+            <button *ngIf="isAuthenticated() && dataPlayer" type="button" routerLink="/sport-spaces" class="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 dark:bg-indigo-700 dark:hover:bg-indigo-600 mt-10">
+              {{ 'principalPage.searchSportSpaces' | translate }}
+            </button>
+            <button *ngIf="isAuthenticated() && dataOwner" type="button" routerLink="/sport-spaces" class="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 dark:bg-indigo-700 dark:hover:bg-indigo-600 mt-10">
+              {{ 'principalPage.adminSportSpaces' | translate }}
+            </button>
+          </div>
+          <p *ngIf="!isAuthenticated() && (!dataOwner || !dataPlayer)" routerLink="/register" class="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500 dark:text-gray-400">
+            <span>{{ 'principalPage.noAccount' | translate }}</span>
+            <a routerLink="/register" class="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300">{{ 'principalPage.signUp' | translate }}</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,225 @@
+<div *ngIf="room" class="flex h-screen antialiased text-gray-800 dark:text-gray-200 custom-height">
+  <div class="flex flex-row w-full overflow-x-hidden chat-messages">
+
+    <!-- Sidebar -->
+    <div [class.hidden]="!isSidebarOpen" [ngClass]="{'hidden': !isSidebarVisible, 'block': isSidebarVisible, 'sidebar': true}" class="flex flex-col my-6 ml-6 pl-2 pr-2 w-80 bg-white dark:bg-gray-800 flex-shrink-0 rounded-2xl hidden-scrollbar max-800:border-30 max-800:border-white max-800:dark:border-[#111827]">
+
+      <!-- Room Detail Section -->
+      <div class="flex flex-col items-center">
+
+        <!-- Room Title, Creator, and Sidebar Button -->
+        <div class="flex flex-row items-center justify-between w-full px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+
+          <!-- Sidebar Button -->
+          <button (click)="toggleSidebar()" class="flex items-center justify-center bg-green-500 hover:bg-green-600 rounded-xl text-white p-2 mr-2">
+            <i [ngClass]="isSmallScreen ? 'fas fa-comments' : 'fas fa-bars'"></i>
+          </button>
+
+          <!-- Room Title and Creator -->
+          <div class="flex-1">
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-200">{{ room.roomName }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 capitalize">{{ 'roomDetailPage.creator' | translate }}: {{ room.creator.name }}</div>
+          </div>
+        </div>
+
+        <!-- Room Image -->
+        <img src="{{ room.sportSpace.imageUrl }}" alt="{{ room.sportSpace.name }}" class="w-full h-48 object-cover rounded-lg mt-2">
+
+        <!-- Toggle Details Button -->
+        <button (click)="toggleDetails()" class="mt-3 text-sm font-medium text-green-600 dark:text-green-400 focus:outline-none">
+          {{ detailsExpanded ? ('roomDetailPage.hideDetails' | translate) : ('roomDetailPage.showDetails' | translate) }}
+        </button>
+
+        <!-- Room Details (collapsible) -->
+        <div *ngIf="detailsExpanded" class="flex flex-col items-start bg-green-50 dark:bg-green-900 border border-gray-200 dark:border-gray-700 mt-4 w-full py-6 px-6 rounded-lg shadow-lg dark:shadow-md">
+          <h2 class="text-lg font-bold text-gray-800 dark:text-white mb-3">{{ 'roomDetailPage.roomDetails' | translate }}</h2>
+
+          <div class="space-y-2 w-full">
+            <!-- Each Detail Item -->
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-store text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.sportSpace' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ room.sportSpace.name }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-calendar-alt text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.dayPlay' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ formatDate1(room.openingDate) }}</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-map text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.district' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ room.sportSpace.district }}</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-map-marker-alt text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.location' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ room.sportSpace.description }}</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-dollar-sign text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.price' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ room.sportSpace.price }}</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-wallet text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.advancePerPerson' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ room.sportSpace.amount }}</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-soccer-ball text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.sport' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ getSportName(room.sportSpace.sportId) }}</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center">
+                <i class="fas fa-gamepad text-green-500 mr-2"></i>
+                <span class="font-semibold text-gray-600 dark:text-white">{{ 'roomDetailPage.gameMode' | translate }}</span>
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{ getSportGamemode(room.sportSpace.gamemode) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player List with Responsive Scroll -->
+      <div class="flex flex-col mt-8">
+        <div class="flex flex-row items-center justify-between text-xs">
+          <span class="font-bold text-gray-800 dark:text-gray-200">{{ 'roomDetailPage.players' | translate }}</span>
+          <span class="flex items-center justify-center bg-gray-300 dark:bg-gray-700 text-black dark:text-white h-4 w-14 rounded-full">({{ players.length }} / {{ room.maxPlayers }})</span>
+        </div>
+        <div class="flex flex-col space-y-1 mt-4 -mx-2 overflow-y-auto capitalize" style="max-height: calc(100vh - 400px);">
+        <div *ngFor="let player of players" class="flex flex-row items-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl p-2">
+            <div class="flex items-center justify-center h-8 w-8 bg-green-200 dark:bg-green-800 rounded-full text-black dark:text-white">
+              <span>{{ player.name.charAt(0) }}</span>
+            </div>
+            <div class="ml-2 text-sm font-semibold text-gray-800 dark:text-gray-200">{{ player.name }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat -->
+    <div class="flex flex-col flex-auto h-full p-6">
+      <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 h-full p-4 border border-gray-400 dark:border-gray-300">
+
+
+      <!-- Chat messages -->
+        <div class="flex flex-col h-full overflow-x-auto mb-4 chat-messages">
+          <div class="flex flex-col h-full">
+            <div *ngFor="let message of messages; let last = last" class="grid grid-cols-12 gap-y-2">
+
+              <!-- Others message -->
+              <div *ngIf="message.user.id !== userData.id" class="col-start-1 col-end-8 p-3 rounded-lg">
+                <div class="flex flex-row items-start">
+                  <div class="flex flex-col items-center mr-2">
+                    <div class="flex items-center justify-center h-10 w-10 rounded-full bg-green-400 text-white capitalize">
+                      {{ message.user.name.charAt(0) }}
+                    </div>
+                    <span class="text-xs mt-1 text-gray-600 dark:text-gray-400 capitalize"> {{ message.user.name.split(' ')[0] }} </span>
+                  </div>
+                  <div>
+                    <div class="relative max-w-xs break-words text-sm bg-white dark:bg-gray-700 py-2 px-4 shadow rounded-xl ml-3">
+                      <div>
+                        {{ message.content }}
+                      </div>
+                    </div>
+                    <span class="text-xs text-gray-400 dark:text-gray-500 mt-2 ml-4 block">{{ formatDate2(message.createdAt) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Logged user message -->
+              <div *ngIf="message.user.id == userData.id" class="col-start-6 col-end-13 p-3 rounded-lg">
+                <div class="flex items-center justify-start flex-row-reverse">
+                  <div class="flex flex-col items-center ml-2">
+                    <div class="flex items-center justify-center h-10 w-10 rounded-full bg-green-800 text-white capitalize">
+                      {{ message.user.name.charAt(0) }}
+                    </div>
+                    <span class="text-xs mt-1 text-gray-600 dark:text-gray-400 capitalize">{{ message.user.name.split(' ')[0] }}</span>
+                  </div>
+                  <div>
+                    <div class="relative max-w-xs break-words text-sm bg-green-100 dark:bg-green-800 py-2 px-4 shadow rounded-xl mr-3 text-right">
+                      <div>
+                        {{ message.content }}
+                      </div>
+                    </div>
+                    <span class="text-xs text-gray-400 dark:text-gray-500 mt-2 mr-4 block text-right">{{ formatDate2(message.createdAt) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="last" #lastMessage></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat input -->
+        <div class="flex flex-row items-center h-16 rounded-xl bg-white dark:bg-gray-700 w-full px-4 shadow">
+
+          <!-- Sidebar button -->
+          <button (click)="toggleSidebar()" class="flex items-center justify-center bg-green-500 hover:bg-green-600 rounded-xl text-white p-2">
+            <i class="fas fa-bars"></i>
+          </button>
+
+          <!-- Input -->
+          <div class="flex-grow ml-4">
+            <div class="relative w-full">
+              <input
+                type="text"
+                placeholder="{{ 'roomDetailPage.typeMessage' | translate }}"
+                [(ngModel)]="newMessage"
+                (keydown.enter)="sendMessage($event)"
+                class="flex w-full border rounded-xl focus:outline-none focus:border-green-300 pl-2 h-10 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
+              />
+            </div>
+          </div>
+
+          <!-- Send button -->
+          <div class="ml-4">
+            <button
+              (click)="sendMessage($event)"
+              class="flex items-center justify-center bg-amber-400 hover:bg-amber-500 rounded-xl text-white px-4 py-1 flex-shrink-0">
+              <span class="send-text">{{ 'roomDetailPage.send' | translate }}</span>
+              <span class="short-send-icon ml-2">
+                <svg
+                  class="w-4 h-4 transform rotate-45 -mt-px"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8">
+                  </path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
